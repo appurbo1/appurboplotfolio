@@ -103,6 +103,16 @@ const app = () => {
     // Add scroll animation after page load
     window.addEventListener('load', () => {
         scrollAnimation();
+        // Image fallback for missing assets
+        const placeholder = 'https://via.placeholder.com/800x600?text=Image+coming+soon';
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', () => {
+                if (!img.dataset.fallbackApplied) {
+                    img.src = placeholder;
+                    img.dataset.fallbackApplied = 'true';
+                }
+            });
+        });
     });
 }
 
