@@ -1,0 +1,10 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#f0f0f0"/>
+  <rect x="50" y="100" width="300" height="100" rx="20" fill="#4a90e2"/>
+  <circle cx="100" cy="220" r="30" fill="#333"/>
+  <circle cx="300" cy="220" r="30" fill="#333"/>
+  <rect x="150" y="80" width="100" height="40" rx="5" fill="#2c3e50"/>
+  <circle cx="175" cy="95" r="8" fill="#e74c3c"/>
+  <circle cx="225" cy="95" r="8" fill="#e74c3c"/>
+  <text x="200" y="270" text-anchor="middle" font-family="Arial" font-size="14" fill="#666">Robot Car Project</text>
+</svg>

@@ -103,16 +103,58 @@ const app = () => {
     // Add scroll animation after page load
     window.addEventListener('load', () => {
         scrollAnimation();
-        // Image fallback for missing assets
-        const placeholder = 'https://via.placeholder.com/800x600?text=Image+coming+soon';
-        document.querySelectorAll('img').forEach(img => {
-            img.addEventListener('error', () => {
-                if (!img.dataset.fallbackApplied) {
-                    img.src = placeholder;
-                    img.dataset.fallbackApplied = 'true';
-                }
-            });
-        });
+    });
+
+    // Robust image fallback: attach early and fix already-failed loads
+    const placeholder = 'https://via.placeholder.com/800x600?text=Image+coming+soon';
+    const applyFallback = (img) => {
+        if (!img.dataset.fallbackApplied) {
+            img.src = placeholder;
+            img.dataset.fallbackApplied = 'true';
+        }
+    };
+
+    // Try alternative extensions before giving up
+    const tryAlternativeExt = (img) => {
+        const src = img.getAttribute('src') || '';
+        const match = src.match(/^(.*)\.(jpg|jpeg|png|webp|svg)$/i);
+        const base = match ? match[1] : src;
+        const originalExt = match ? match[2].toLowerCase() : '';
+        const candidates = ['webp','png','jpeg','jpg']
+            .filter(ext => ext !== originalExt)
+            .map(ext => `${base}.${ext}`);
+        let idx = 0;
+        const attemptNext = () => {
+            if (idx >= candidates.length) {
+                applyFallback(img);
+                return;
+            }
+            const candidate = candidates[idx++];
+            const probe = new Image();
+            probe.onload = () => {
+                img.src = candidate;
+            };
+            probe.onerror = attemptNext;
+            probe.src = candidate;
+        };
+        attemptNext();
+    };
+
+    document.querySelectorAll('img').forEach(img => {
+        const handleError = () => {
+            if (!img.dataset.swapTried) {
+                img.dataset.swapTried = 'true';
+                tryAlternativeExt(img);
+            } else {
+                applyFallback(img);
+            }
+        };
+        // If the image already failed before listeners were attached
+        if (img.complete && (img.naturalWidth === 0 || img.naturalHeight === 0)) {
+            handleError();
+        }
+        // Handle future errors
+        img.addEventListener('error', handleError);
     });
 }
 
