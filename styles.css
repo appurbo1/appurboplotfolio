@@ -203,10 +203,10 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1516542076529-1ea3854896f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background: linear-gradient(135deg, #ffffff 0%, #f7f7f7 60%, #eef6ff 100%);
     background-size: cover;
     background-position: center;
-    color: var(--color-white);
+    color: var(--color-secondary);
     text-align: center;
     padding-top: 80px;
 }
@@ -229,7 +229,7 @@ nav {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    color: var(--color-gray-light);
+    color: var(--color-gray);
 }
 
 /* About Section */
